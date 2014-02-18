@@ -1,6 +1,6 @@
 {
-    "port" : 27017,
+    "port" : 10085,
     "mongoose": {
-        "uri": "mongodb://localhost/nodejstest"
+        "uri": "mongodb://tibal:d@shK0@troup.mongohq.com/app22322889"
     }
 }
