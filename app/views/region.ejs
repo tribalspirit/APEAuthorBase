@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<h1><%= title %></h1>
+
+<div>
+    <ul>
+        <table><tr>
+        <th>#</th>
+        <th>Region</th>
+        <th></th>
+        </tr>
+        <tr>
+            <% for(var i=0; i<region.length; i++) {%>
+            <tr>
+        <td><%= i+1 %></td><td>
+            <%= region[i].name %>
+
+            </td>
+            <td>
+                <form action="/region" method='DELETE'>
+
+                    <input type='hidden'  name='id' value=<%=region[i]._id %> />
+                    <button class='submit' type='submit' name='X' />
+                </form>  </td>  </tr>
+                <% } %>
+
+
+        </table>
+    </ul>
+</div>
+
+
+<form method="POST" action="region">
+    New region:<input type="text" name="name">
+    <input type="submit" name="submit" value="Add">
+
+</form>
+
+
+</body>
+</html>
