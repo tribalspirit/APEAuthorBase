@@ -1,6 +1,6 @@
 {
     "port" : 10085,
     "mongoose": {
-        "uri": "mongodb://tibal:d@shK0@troup.mongohq.com/app22322889"
+        "uri": "mongodb://tibal:d1a2s3H@troup.mongohq.com:10085/app22322889"
     }
 }
