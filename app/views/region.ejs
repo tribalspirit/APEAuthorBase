@@ -7,8 +7,8 @@
             actions: {
                 listAction: 'region',
                 createAction: 'region/new',
-                updateAction: 'region',
-                deleteAction: 'region'
+                updateAction: 'region/update',
+                deleteAction: 'region/delete'
             },
             fields: {
                 _id: {
@@ -29,11 +29,5 @@
 
 <div id="RegionTable"></div>
 
-
-<form method="POST" action="region">
-    New region:<input type="text" name="name">
-    <input type="submit" name="submit" value="Add">
-
-</form>
 
 <% include common/footer %>

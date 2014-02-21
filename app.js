@@ -43,7 +43,8 @@ app.get('/', routes.index);
 
 app.post('/region', region.read);
 app.post('/region/new', region.create);
-app.delete('/region/:id', region.delete);
+app.post('/region/delete', region.delete);
+app.post('/region/update', region.update)
 
 app.get('/regions', region.show);
 

@@ -1,37 +1,38 @@
-
 /*
  * GET users listing.
  */
 
-var RegionModel  = require('../models/mongoose').RegionModel;
-
-exports.read = function(req, res) {
+var RegionModel = require('../models/mongoose').RegionModel;
+var JSONres;
+exports.read = function (req, res) {
 
     return RegionModel.find(function (err, region) {
 
         if (!err) {
-//            res.render('region', {
-//                "title" : 'List',
-//                "region" : region
-//            });
 
-           var JSONres = {
-               Result: "OK",
-               Records: region
+            JSONres = {
+                Result: "OK",
+                Records: region
 
-           }
+            }
 
-           res.json(JSONres);
+
         } else {
             res.statusCode = 500;
+            JSONres = {
+                Result: "ERROR",
+                Record: err
 
-            return res.send('Server error');
+            }
+
+
         }
+        return res.json(JSONres);
     });
 
 };
 
-exports.create = function(req, res) {
+exports.create = function (req, res) {
     var reg = new RegionModel({
         name: req.body.name
 
@@ -40,40 +41,62 @@ exports.create = function(req, res) {
     reg.save(
         function (err) {
             if (!err) {
-                console.log("article created");
-                return res.redirect('back');
+
+                JSONres = {
+                    Result: "OK",
+                    Record: reg
+
+                }
+
 
             } else {
-                console.log(err);
-                if(err.name == 'ValidationError') {
-                    res.statusCode = 400;
-                    res.send({ error: 'Validation error' });
-                } else {
-                    res.statusCode = 500;
-                    res.send({ error: 'Server error' });
+                res.statusCode = 500;
+                JSONres = {
+                    Result: "ERROR",
+                    Record: err
+
                 }
-                console.log("feck!");
+
+
             }
+            return res.json(JSONres);
+
+
         }
 
     );
 };
 
-exports.delete = function(req, res) {
-    return RegionModel.findById(req.params.id, function (err, region) {
-        if(!region) {
+exports.delete = function (req, res) {
+
+    return RegionModel.findById(req.body._id, function (err, region) {
+
+        if (!region) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
         return region.remove(function (err) {
+
             if (!err) {
-                console.log("article removed");
-                return res.redirect('back');
+
+                JSONres = {
+                    Result: "OK"
+
+
+                }
+
+
             } else {
                 res.statusCode = 500;
-                log.error('Internal error(%d): %s',res.statusCode,err.message);
-                return res.send({ error: 'Server error' });
+                JSONres = {
+                    Result: "ERROR",
+                    Record: err
+
+                }
+
+
             }
+            return res.json(JSONres);
         });
     });
 
@@ -81,12 +104,43 @@ exports.delete = function(req, res) {
 };
 
 
-exports.show = function(req, res) {
-                res.render('region', {
-                "title" : 'List',
-                "region" : RegionModel.find()
+exports.update = function(req, res){
+    RegionModel.findById(req.body._id, function (err, region) {
+        region.name = req.body.name;
 
-            });
+        return region.save(function (err) {
+            if (!err) {
+
+                JSONres = {
+                    Result: "OK",
+                    Record: region
+
+                }
+
+
+            } else {
+                res.statusCode = 500;
+                JSONres = {
+                    Result: "ERROR",
+                    Record: err
+
+                }
+
+
+            }
+
+        });
+    });
+    return res.json(JSONres);
+};
+
+
+exports.show = function (req, res) {
+    res.render('region', {
+        "title": 'List',
+        "region": RegionModel.find()
+
+    });
 
 
 };
