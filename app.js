@@ -6,7 +6,7 @@
 var express = require('express');
 var routes = require('./app/controllers');
 var region = require('./app/controllers/region');
-var form = require('./app/controllers/form')
+
 var http = require('http');
 var path = require('path');
 var config = require('./app/config');
@@ -41,11 +41,11 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 //app.get('/user', user.list(db));
 
-app.get('/region', region.read);
-app.post('/region', region.create);
+app.post('/region', region.read);
+app.post('/region/new', region.create);
 app.delete('/region/:id', region.delete);
 
-app.get('/form', form.form);
+app.get('/regions', region.show);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

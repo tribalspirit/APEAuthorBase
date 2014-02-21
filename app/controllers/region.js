@@ -10,11 +10,18 @@ exports.read = function(req, res) {
     return RegionModel.find(function (err, region) {
 
         if (!err) {
-            res.render('region', {
-                "title" : 'List',
-                "region" : region
-            });
-//            res.json(region);
+//            res.render('region', {
+//                "title" : 'List',
+//                "region" : region
+//            });
+
+           var JSONres = {
+               Result: "OK",
+               Records: region
+
+           }
+
+           res.json(JSONres);
         } else {
             res.statusCode = 500;
 
@@ -69,6 +76,17 @@ exports.delete = function(req, res) {
             }
         });
     });
+
+
+};
+
+
+exports.show = function(req, res) {
+                res.render('region', {
+                "title" : 'List',
+                "region" : RegionModel.find()
+
+            });
 
 
 };

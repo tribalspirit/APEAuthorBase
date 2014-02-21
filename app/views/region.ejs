@@ -1,44 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-<h1><%= title %></h1>
+<% include common/header %>
 
-<div>
-    <ul>
-        <table><tr>
-        <th>#</th>
-        <th>Region</th>
-        <th></th>
-        </tr>
-        <tr>
-            <% for(var i=0; i<region.length; i++) {%>
-            <tr>
-        <td><%= i+1 %></td><td>
-            <%= region[i].name %>
+<script>
+    $(document).ready(function () {
+        $('#RegionTable').jtable({
+            title: 'Regions',
+            actions: {
+                listAction: 'region',
+                createAction: 'region/new',
+                updateAction: 'region',
+                deleteAction: 'region'
+            },
+            fields: {
+                _id: {
+                    key: true,
+                    list: false
+                },
+                name: {
+                    title: 'Region',
+                    width: '40%'
+                }
 
-            </td>
-            <td>
+            }
+        });
+        $('#RegionTable').jtable('load');
+    });
 
+</script>
 
-                    <form method="DELETE" action="/region/<%= region[i]._id %>">
-                <input type="hidden" name="_method" value="delete"/>
-                <input type="submit" value="Delete"/>
-                </form>
-                <a data-method="delete" href="/region/<%= region[i]._id %>">x</a>
-            </td>  </tr>
-                <% } %>
-
-
-        </table>
-
-
-
-    </ul>
-</div>
+<div id="RegionTable"></div>
 
 
 <form method="POST" action="region">
@@ -47,6 +36,4 @@
 
 </form>
 
-
-</body>
-</html>
+<% include common/footer %>
