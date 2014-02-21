@@ -14,6 +14,7 @@ exports.read = function(req, res) {
                 "title" : 'List',
                 "region" : region
             });
+//            res.json(region);
         } else {
             res.statusCode = 500;
 

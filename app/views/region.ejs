@@ -22,15 +22,21 @@
 
             </td>
             <td>
-                <form action="/region" method='DELETE'>
 
-                    <input type='hidden'  name='id' value=<%=region[i]._id %> />
-                    <button class='submit' type='submit' name='X' />
-                </form>  </td>  </tr>
+
+                    <form method="DELETE" action="/region/<%= region[i]._id %>">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" value="Delete"/>
+                </form>
+                <a data-method="delete" href="/region/<%= region[i]._id %>">x</a>
+            </td>  </tr>
                 <% } %>
 
 
         </table>
+
+
+
     </ul>
 </div>
 
