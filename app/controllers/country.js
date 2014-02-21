@@ -1,18 +1,23 @@
+/**
+ * Created by Nick on 21.02.14.
+ */
+
 /*
  * GET users listing.
  */
 
-var RegionModel = require('../models/mongoose').RegionModel;
+var CountryModel = require('../models/mongoose').CountryModel;
 var JSONres;
+
 exports.read = function (req, res) {
 
-    RegionModel.find(function (err, region) {
+    return CountryModel.find(function (err, country) {
 
         if (!err) {
 
             JSONres = {
                 Result: "OK",
-                Records: region
+                Records: country
 
             }
 
@@ -33,18 +38,18 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var reg = new RegionModel({
-        name: req.body.name
-
+    var country = new CountryModel({
+        name: req.body.name,
+        region: req.body.region
     });
 
-    reg.save(
+    country.save(
         function (err) {
             if (!err) {
 
                 JSONres = {
                     Result: "OK",
-                    Record: reg
+                    Record: country
 
                 }
 
@@ -69,9 +74,9 @@ exports.create = function (req, res) {
 
 exports.delete = function (req, res) {
 
-    return RegionModel.findById(req.body._id, function (err, region) {
+    return CountryModel.findById(req.body._id, function (err, country) {
 
-        if (!region) {
+        if (!country) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
@@ -105,8 +110,9 @@ exports.delete = function (req, res) {
 
 
 exports.update = function(req, res){
-    RegionModel.findById(req.body._id, function (err, region) {
-        region.name = req.body.name;
+    RegionModel.findById(req.body._id, function (err, country) {
+        country.name = req.body.name;
+        country.region = req.body.region;
 
         return region.save(function (err) {
             if (!err) {
@@ -135,57 +141,9 @@ exports.update = function(req, res){
 };
 
 
-exports.list = function(req, res){
-    var regs = [];
-
-    RegionModel.find(function (err, region) {
-
-        if (!err) {
-
-            for(var i in region) {
-                console.log(region[i].name);
-                regs.push(
-                    {
-                        DisplayText: region[i].name,
-                        Value: region[i]._id
-                    }
-                );
-
-            JSONres = {
-                Result: "OK",
-                Options: regs
-            }
-
-
-
-//                regs.push ({
-//                    DisplayText: region[i].name,
-//                    Value: region[i]._id
-//                });
-            };
-
-
-        } else {
-            res.statusCode = 500;
-            JSONres = {
-                Result: "ERROR",
-                Record: err
-
-            }
-
-
-        }
-        return res.json(JSONres);
-    });
-
-
-
-};
-
-
 exports.show = function (req, res) {
-    res.render('region', {
-        "title": 'Regions'
+    res.render('country', {
+        "title": 'Countries'
 
 
     });

@@ -6,12 +6,14 @@
 var express = require('express');
 var routes = require('./app/controllers');
 var region = require('./app/controllers/region');
+var country = require('./app/controllers/country');
+
 
 var http = require('http');
 var path = require('path');
 var config = require('./app/config');
 
-var RegionModel  = require('./app/models/mongoose').RegionModel;
+
 
 
 
@@ -39,14 +41,24 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-//app.get('/user', user.list(db));
 
-app.post('/region', region.read);
+
+app.post('/region/read', region.read);
 app.post('/region/new', region.create);
 app.post('/region/delete', region.delete);
-app.post('/region/update', region.update)
+app.post('/region/update', region.update);
+app.post('/region/list', region.list);
 
-app.get('/regions', region.show);
+app.get('/region', region.show);
+
+app.post('/country/read', country.read);
+app.post('/country/new', country.create);
+app.post('/country/delete', country.delete);
+app.post('/country/update', country.update);
+
+app.get('/country', country.show);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

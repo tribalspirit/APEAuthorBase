@@ -1,0 +1,38 @@
+<% include common/header %>
+
+<script>
+    $(document).ready(function () {
+        $('#CountryTable').jtable({
+            title: 'Countries',
+            actions: {
+                listAction: 'country/read',
+                createAction: 'country/new',
+                updateAction: 'country/update',
+                deleteAction: 'country/delete'
+            },
+            fields: {
+                _id: {
+                    key: true,
+                    list: false
+                },
+                name: {
+                    title: 'Country',
+                    width: '40%'
+                },
+                region: {
+                    title: 'Region',
+                    width: '40%',
+                    options: '/region/list/'
+                }
+
+            }
+        });
+        $('#CountryTable').jtable('load');
+    });
+
+</script>
+
+<div id="CountryTable"></div>
+
+
+<% include common/footer %>

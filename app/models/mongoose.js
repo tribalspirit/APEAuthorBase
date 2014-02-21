@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var config = require('../config');
 
-var MONGOHQ_URL="mongodb://user:pass@server.mongohq.com:port_name/db_name"
+
 
 mongoose.connect(config.get('mongoose:uri'));
 
