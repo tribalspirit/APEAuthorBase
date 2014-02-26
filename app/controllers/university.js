@@ -114,9 +114,9 @@ exports.delete = function (req, res) {
 
 
 exports.update = function(req, res){
-    RegionModel.findById(req.body._id, function (err, univ) {
+    UniversityModel.findById(req.body._id, function (err, univ) {
         univ.name = req.body.name;
-        univ.region = req.body.region;
+        univ.country = req.body.country;
 
         return region.save(function (err) {
             if (!err) {
