@@ -1,0 +1,40 @@
+<% include common/header %>
+
+    <script>
+    $(document).ready(function () {
+        $('#UnivTable').jtable({
+            title: 'Regions',
+            actions: {
+                listAction: 'university/read',
+                createAction: 'university/new',
+                updateAction: 'university/update',
+                deleteAction: 'university/delete'
+            },
+    fields: {
+        _id: {
+        key: true,
+        list: false
+        },
+    name: {
+        title: 'University',
+        width: '40%'
+        },
+    country: {
+        title: 'Country',
+        width: '40%',
+        options: '/country/list/'
+
+        }
+
+
+    }
+    });
+    $('#UnivTable').jtable('load');
+    });
+
+    </script>
+
+    <div id="UnivTable"></div>
+
+
+    <% include common/footer %>

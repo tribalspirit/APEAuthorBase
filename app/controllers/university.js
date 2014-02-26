@@ -1,4 +1,8 @@
 /**
+ * Created by Mykola_Turunov on 2/25/14.
+ */
+
+/**
  * Created by Nick on 21.02.14.
  */
 
@@ -6,18 +10,18 @@
  * GET users listing.
  */
 
-var CountryModel = require('../models/mongoose').CountryModel;
+var UniversityModel = require('../models/mongoose').UniversityModel;
 var JSONres;
 
 exports.read = function (req, res) {
 
-    return CountryModel.find(function (err, country) {
+    return UniversityModel.find(function (err, univs) {
 
         if (!err) {
 
             JSONres = {
                 Result: "OK",
-                Records: country
+                Records: univs
 
             }
 
@@ -38,18 +42,18 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var country = new CountryModel({
+    var univ = new UniversityModel({
         name: req.body.name,
-        region: req.body.region
+        country: req.body.country
     });
 
-    country.save(
+    univ.save(
         function (err) {
             if (!err) {
 
                 JSONres = {
                     Result: "OK",
-                    Record: country
+                    Record: univ
 
                 }
 
@@ -74,9 +78,9 @@ exports.create = function (req, res) {
 
 exports.delete = function (req, res) {
 
-    return CountryModel.findById(req.body._id, function (err, country) {
+    return UniversityModel.findById(req.body._id, function (err, univ) {
 
-        if (!country) {
+        if (!univ) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
@@ -110,16 +114,16 @@ exports.delete = function (req, res) {
 
 
 exports.update = function(req, res){
-    CountryModel.findById(req.body._id, function (err, country) {
-        country.name = req.body.name;
-        country.region = req.body.region;
+    RegionModel.findById(req.body._id, function (err, univ) {
+        univ.name = req.body.name;
+        univ.region = req.body.region;
 
-        return country.save(function (err) {
+        return region.save(function (err) {
             if (!err) {
 
                 JSONres = {
                     Result: "OK",
-                    Record: country
+                    Record: univ
 
                 }
 
@@ -140,47 +144,10 @@ exports.update = function(req, res){
     return res.json(JSONres);
 };
 
-exports.list = function(req, res){
-    var counts = [];
-
-    CountryModel.find(function (err, count) {
-
-        if (!err) {
-
-            for(var i in count) {
-                console.log(count[i].name);
-                counts.push(
-                    {
-                        DisplayText: count[i].name,
-                        Value: count[i]._id
-                    }
-                );
-
-                JSONres = {
-                    Result: "OK",
-                    Options: counts
-                }
-            };
-
-        } else {
-            res.statusCode = 500;
-            JSONres = {
-                Result: "ERROR",
-                Record: err
-
-            }
-        }
-        return res.json(JSONres);
-    });
-
-
-
-};
-
 
 exports.show = function (req, res) {
-    res.render('country', {
-        "title": 'Countries'
+    res.render('university', {
+        "title": 'Universities'
 
 
     });

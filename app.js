@@ -7,7 +7,7 @@ var express = require('express');
 var routes = require('./app/controllers');
 var region = require('./app/controllers/region');
 var country = require('./app/controllers/country');
-
+var university = require('./app/controllers/university');
 
 var http = require('http');
 var path = require('path');
@@ -55,8 +55,17 @@ app.post('/country/read', country.read);
 app.post('/country/new', country.create);
 app.post('/country/delete', country.delete);
 app.post('/country/update', country.update);
+app.post('/country/list', country.list);
 
 app.get('/country', country.show);
+
+app.post('/university/read', university.read);
+app.post('/university/new', university.create);
+app.post('/university/delete', university.delete);
+app.post('/university/update', university.update);
+//app.post('/university/list', university.list);
+
+app.get('/university', university.show);
 
 
 
