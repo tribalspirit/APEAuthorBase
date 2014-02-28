@@ -4,16 +4,28 @@
 
 var RegionModel = require('../models/mongoose').RegionModel;
 var JSONres;
-exports.read = function (req, res) {
 
-    RegionModel.find(function (err, region) {
+
+exports.read = function (req, res) {
+    return RegionModel.find().lean().exec(function (err, items) {
+
 
         if (!err) {
 
+         var options = [];
+            for (var i in items){
+                options[i] = {
+                    DisplayText : items[i].name,
+                    Value : items[i]._id
+                }
+
+            }
+
+
             JSONres = {
                 Result: "OK",
-                Records: region
-
+                Records: items,
+                Options: options
             }
 
 

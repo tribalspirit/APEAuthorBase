@@ -21,6 +21,10 @@ var Region = new Schema({
 
 });
 
+Region.virtual('Value').get(function(){
+   return this.name;
+});
+
 var Country = new Schema({
     name: {
         type: String,

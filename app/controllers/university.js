@@ -15,6 +15,7 @@ var JSONres;
 
 exports.read = function (req, res) {
 
+
     return UniversityModel.find(function (err, univs) {
 
         if (!err) {
@@ -38,6 +39,7 @@ exports.read = function (req, res) {
         }
         return res.json(JSONres);
     });
+
 
 };
 
@@ -142,6 +144,62 @@ exports.update = function(req, res){
         });
     });
     return res.json(JSONres);
+};
+
+exports.list = function(req, res){
+    var formattedList = [];
+    var query;
+
+    if (req.params.country) {
+        console.log(req.params.country);
+        query = {
+
+            country: req.params.country
+        };
+    }
+    console.log(query);
+    UniversityModel.find(query,  function (err, rawList) {
+
+        if (!err) {
+
+            for(var i in rawList) {
+                console.log(rawList[i].name);
+                formattedList.push(
+                    {
+                        DisplayText: rawList[i].name,
+                        Value: rawList[i]._id
+                    }
+                );
+
+                JSONres = {
+                    Result: "OK",
+                    Options: formattedList
+                }
+
+
+
+//                regs.push ({
+//                    DisplayText: region[i].name,
+//                    Value: region[i]._id
+//                });
+            };
+
+
+        } else {
+            res.statusCode = 500;
+            JSONres = {
+                Result: "ERROR",
+                Record: err
+
+            }
+
+
+        }
+        return res.json(JSONres);
+    });
+
+
+
 };
 
 

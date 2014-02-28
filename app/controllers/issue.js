@@ -1,43 +1,27 @@
 /**
- * Created by Nick on 21.02.14.
+ * Created by Mykola_Turunov on 2/26/14.
  */
 
 /*
  * GET users listing.
  */
 
-var CountryModel = require('../models/mongoose').CountryModel;
+var IssueModel = require('../models/mongoose').IssueModel;
 var JSONres;
-
 exports.read = function (req, res) {
 
-    var query = {};
-    if (req.body.region) {
-        query = {
-            region: req.body.region
-        };
-    }
-
-
-    return CountryModel.find(query).lean().exec(function (err, country) {
-
-
+    IssueModel.find(function (err, issue) {
 
         if (!err) {
+
             JSONres = {
                 Result: "OK",
-                Records: country
-
-                    }
-
-
-
-
+                Records: issue
 
             }
 
 
-         else {
+        } else {
             res.statusCode = 500;
             JSONres = {
                 Result: "ERROR",
@@ -53,18 +37,22 @@ exports.read = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var country = new CountryModel({
+    var reg = new IssueModel({
+        year: req.body.year,
+        month: req.body.month,
+        number: req.body.number,
         name: req.body.name,
-        region: req.body.region
+        description: req.body.description
+
     });
 
-    country.save(
+    reg.save(
         function (err) {
             if (!err) {
 
                 JSONres = {
                     Result: "OK",
-                    Record: country
+                    Record: reg
 
                 }
 
@@ -89,13 +77,13 @@ exports.create = function (req, res) {
 
 exports.delete = function (req, res) {
 
-    return CountryModel.findById(req.body._id, function (err, country) {
+    return IssueModel.findById(req.body._id, function (err, issue) {
 
-        if (!country) {
+        if (!issue) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
-        return region.remove(function (err) {
+        return issue.remove(function (err) {
 
             if (!err) {
 
@@ -125,16 +113,19 @@ exports.delete = function (req, res) {
 
 
 exports.update = function(req, res){
-    CountryModel.findById(req.body._id, function (err, country) {
-        country.name = req.body.name;
-        country.region = req.body.region;
+    IssueModel.findById(req.body._id, function (err, issue) {
+        issue.name = req.body.name;
+        issue.year = req.body.year;
+        issue.month = req.body.month;
+        issue.number = req.body.number;
+        issue.description = req.body.description;
 
-        return country.save(function (err) {
+        return issue.save(function (err) {
             if (!err) {
 
                 JSONres = {
                     Result: "OK",
-                    Record: country
+                    Record: issue
 
                 }
 
@@ -155,27 +146,36 @@ exports.update = function(req, res){
     return res.json(JSONres);
 };
 
-exports.list = function(req, res){
-    var counts = [];
 
-    CountryModel.find(function (err, count) {
+exports.list = function(req, res){
+    var regs = [];
+
+    IssueModel.find(function (err, issue) {
 
         if (!err) {
 
-            for(var i in count) {
-                console.log(count[i].name);
-                counts.push(
+            for(var i in issue) {
+                console.log(issue[i].name);
+                regs.push(
                     {
-                        DisplayText: count[i].name,
-                        Value: count[i]._id
+                        DisplayText: "#" + issue[i].month + "'" + issue[i].year + " - " + issue[i].number ,
+                        Value: issue[i]._id
                     }
                 );
 
                 JSONres = {
                     Result: "OK",
-                    Options: counts
+                    Options: regs
                 }
+
+
+
+//                regs.push ({
+//                    DisplayText: issue[i].name,
+//                    Value: issue[i]._id
+//                });
             };
+
 
         } else {
             res.statusCode = 500;
@@ -184,6 +184,8 @@ exports.list = function(req, res){
                 Record: err
 
             }
+
+
         }
         return res.json(JSONres);
     });
@@ -194,8 +196,8 @@ exports.list = function(req, res){
 
 
 exports.show = function (req, res) {
-    res.render('country', {
-        "title": 'Countries'
+    res.render('issue', {
+        "title": 'Issues'
 
 
     });

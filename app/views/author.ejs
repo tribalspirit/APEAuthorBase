@@ -1,0 +1,69 @@
+<% include common/header %>
+
+<script>
+    $(document).ready(function () {
+        $('#AuthorTable').jtable({
+            title: 'Regions',
+            actions: {
+                listAction: 'author/read',
+                createAction: 'author/new',
+                updateAction: 'author/update',
+                deleteAction: 'author/delete'
+            },
+            fields: {
+                _id: {
+                    key: true,
+                    list: false
+                },
+                name: {
+                    title: 'Name',
+                    width: '20%'
+
+                },
+
+                degree: {
+                    title: 'Degree',
+                    width: '20%',
+                    options: [
+                        'Honorable Proffessor of Sour Shchee ',
+                        'PhD',
+                        'Loshara'
+                        ]
+                },
+
+                country: {
+                    title: 'Country',
+                    width: '10%',
+                    options: '/country/list/'
+
+                },
+
+                university: {
+                    title: 'University',
+                    width: '50%',
+                    dependsOn: 'country',
+                    options: function (data) {
+                        console.log(data.source);
+                        console.log(data.dependedValues.country);
+
+                        if (data.source == 'list') {
+                            return '/university/list/';
+                        }
+                        return 'university/list/' + data.dependedValues.country;
+                    }
+
+                }
+
+
+
+            }
+        });
+        $('#AuthorTable').jtable('load');
+    });
+
+</script>
+
+<div id="AuthorTable"></div>
+
+
+<% include common/footer %>

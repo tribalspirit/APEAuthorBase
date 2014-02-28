@@ -1,0 +1,59 @@
+<% include common/header %>
+
+    <script>
+    $(document).ready(function () {
+        $('#IssueTable').jtable({
+            title: 'Regions',
+            actions: {
+                listAction: 'issue/read',
+                createAction: 'issue/new',
+                updateAction: 'issue/update',
+                deleteAction: 'issue/delete'
+            },
+    fields: {
+        _id: {
+        key: true,
+        list: false
+        },
+    year: {
+        title: 'Year',
+        width: '5%',
+        options: ['2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012', '2013', '2014', '2015']
+        },
+
+    month: {
+        title: 'Month',
+        width: '5%',
+       options: ['1','2','3','4','5','6','7','8','9','10','11','12']
+    },
+
+    number: {
+            title: '#',
+            width: '5%'
+
+        },
+
+    name: {
+            title: 'Name',
+            width: '15%'
+
+        },
+
+    description: {
+            title: 'Description',
+        width: '70%'
+
+        }
+
+
+    }
+    });
+    $('#IssueTable').jtable('load');
+    });
+
+    </script>
+
+    <div id="IssueTable"></div>
+
+
+    <% include common/footer %>
